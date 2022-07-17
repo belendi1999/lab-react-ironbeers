@@ -1,22 +1,23 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-
-function RandomBeer() {
+function BeerDetails() {
   const [beerData, setBeerData] = useState({});
-
+  const { beerId } = useParams();
 
   useEffect(() => {
     axios
-      .get(`https://ih-beers-api2.herokuapp.com/beers/random`)
+      .get(`https://ih-beers-api2.herokuapp.com/beers/${beerId}`)
       .then((res) => {
+        console.log(res.data)
         setBeerData(res.data);
       });
   }, [setBeerData]);
   return (
     <div>
       <img src={require("../assets/new-beer.png")} alt="newBeer" />
-      <h1>Here is your random beer: {beerData.name}</h1>
+      <h1>Here is your {beerData.name}</h1>
       <img height="100px" src={beerData.image_url} />
       <h2>{beerData.tagline}</h2>
       <h3>{beerData.first_brewed}</h3>
@@ -26,4 +27,4 @@ function RandomBeer() {
     </div>
   );
 }
-export default RandomBeer;
+export default BeerDetails;
